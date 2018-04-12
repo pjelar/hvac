@@ -25,6 +25,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         'requests>=2.7.0',
+        'urllib3>=1.22'
     ],
     include_package_data=True,
     package_data={'hvac':['version']},
