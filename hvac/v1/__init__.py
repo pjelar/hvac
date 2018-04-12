@@ -1069,13 +1069,12 @@ class Client(object):
         :return:
         """
         parsed = urlparse(self._url)
-        self.token = self._authenticate_to_vault(parsed.hostname,
-                                                 parsed.port,
+        self.token = self._authenticate_to_vault(parsed.netloc,
                                                  iam_role,
                                                  self._kwargs['verify'])
         return self.token
 
-    def _authenticate_to_vault(self, vault_host, vault_port, role, verify):
+    def _authenticate_to_vault(self, vault_host, role, verify):
         payload = self._generate_vault_request(role, vault_host)
 
         headers = {
@@ -1083,7 +1082,7 @@ class Client(object):
             'Accept': 'text/plain'  # ,
         }
 
-        response = requests.post('https://{}:{}/v1/auth/aws/login'.format(vault_host, vault_port),
+        response = requests.post('https://{}/v1/auth/aws/login'.format(vault_host ),
                                  data=json.dumps(payload),
                                  headers=headers,
                                  verify=verify)
